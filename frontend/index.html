@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="JanSetu - Integrated Citizen Grievance Redressal and Services Portal.">
+  <meta name="color-scheme" content="light dark">
+  <title>JanSetu - Integrated Citizen Grievance Redressal Portal</title>
+  <link rel="icon" href="/static/img/icon.svg" type="image/svg+xml">
+  <script src="/static/js/theme-init.js"></script>
+  <link rel="stylesheet" href="/static/vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="/static/css/app.css">
+  <script type="module" src="/static/js/app.js"></script>
+</head>
+<body>
+  <div class="gov-strip" role="region" aria-label="Accessibility options">
+    <div class="container">
+      <a class="skip" href="#main" data-i18n="a11y.skip">Skip to main content</a>
+      <span class="sep hide-sm">|</span>
+      <span class="hide-sm" id="strip-region"></span>
+      <div class="tools">
+        <button type="button" id="font-sm" title="Decrease text size" aria-label="Decrease text size">A-</button>
+        <button type="button" id="font-md" title="Normal text size" aria-label="Normal text size">A</button>
+        <button type="button" id="font-lg" title="Increase text size" aria-label="Increase text size">A+</button>
+        <button type="button" id="theme-toggle" aria-label="Theme">Theme</button>
+        <label class="sr-only" for="lang-select">Language</label>
+        <select id="lang-select" title="Language"></select>
+      </div>
+    </div>
+  </div>
+  <header class="gov-header">
+    <div class="container">
+      <a class="brand" href="/" data-link>
+        <img src="/static/img/icon.svg" alt="" width="54" height="54">
+        <span><span class="bt" id="brand-title">JanSetu</span><span class="bs" id="brand-sub">Integrated Citizen Grievance Redressal &amp; Services Portal</span>
+          <span class="br" id="brand-region"></span></span>
+      </a>
+      <div class="header-right">
+        <div class="helpline" id="helpline"></div>
+      </div>
+    </div>
+  </header>
+  <div class="tricolour" aria-hidden="true"></div>
+  <nav class="gov-nav" aria-label="Main">
+    <div class="container">
+      <button class="icon-btn nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav" aria-label="Menu"></button>
+      <div id="nav" class="nav"></div>
+      <div class="nav-right">
+        <div id="notif-box" class="user-box"></div>
+        <div id="user-box" class="user-box"></div>
+      </div>
+    </div>
+  </nav>
+  <div class="shell" id="shell">
+    <main id="main" tabindex="-1"><div id="app" class="container"><p class="muted">Loading...</p></div></main>
+  </div>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <footer class="gov-footer" id="footer"></footer>
+</body>
+</html>

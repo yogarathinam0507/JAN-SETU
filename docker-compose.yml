@@ -1,0 +1,26 @@
+# Local demo stack: API + PostgreSQL. `docker compose up --build`, then open http://<host>:8000
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: jansetu
+      POSTGRES_USER: jansetu
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me-local-only}
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U jansetu"]
+      interval: 5s
+      retries: 10
+  app:
+    build: .
+    depends_on:
+      db: { condition: service_healthy }
+    env_file: [.env]
+    environment:
+      DATABASE_URL: postgresql+psycopg://jansetu:${POSTGRES_PASSWORD:-change-me-local-only}@db:5432/jansetu
+      SEED_DEMO: "true"
+    ports: ["8000:8000"]
+    volumes: [uploads:/app/backend/data/uploads]
+volumes:
+  pgdata:
+  uploads:

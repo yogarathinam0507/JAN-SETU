@@ -1,0 +1,22 @@
+{
+ "en": {
+  "keys": 970,
+  "total": 970,
+  "citizen_core_pct": 100.0
+ },
+ "kn": {
+  "keys": 406,
+  "total": 970,
+  "citizen_core_pct": 91.4
+ },
+ "hi": {
+  "keys": 282,
+  "total": 970,
+  "citizen_core_pct": 72.1
+ },
+ "ta": {
+  "keys": 265,
+  "total": 970,
+  "citizen_core_pct": 66.2
+ }
+}
