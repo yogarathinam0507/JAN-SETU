@@ -27,16 +27,27 @@ export async function mapConfig() {
 export const PRIORITY_COLORS = { Emergency: '#c62828', High: '#ef6c00', Medium: '#1565c0', Low: '#607d8b' };
 export const priorityColor = (p) => PRIORITY_COLORS[p] || '#94a3b8';
 
+// Helper to inject the CARTO API key into tile URL strings if they belong to cartocdn
+function attachCartoKey(url) {
+  if (!url) return url;
+  if (url.includes('cartocdn.com') && !url.includes('key=')) {
+    const separator = url.includes('?') ? '&' : '?';
+    return `${url}${separator}key=cb1_4oj9_1_da8dabbbaf6abf27439a95c6`;
+  }
+  return url;
+}
+
 // Basemap with automatic fallback: primary provider (light or dark variant) -> secondary provider -> notice.
 function addBasemap(L, map, el, cfg) {
   const dark = document.documentElement.dataset.theme === 'dark';
-  const providers = [dark && cfg.tile_url_dark ? cfg.tile_url_dark : cfg.tile_url, cfg.fallback_tile_url].filter(Boolean);
+  const rawProviders = [dark && cfg.tile_url_dark ? cfg.tile_url_dark : cfg.tile_url, cfg.fallback_tile_url].filter(Boolean);
+  const providers = rawProviders.map(attachCartoKey);
   let idx = 0, layer = null, failed = 0, loaded = 0;
   const use = (i) => {
     if (layer) map.removeLayer(layer);
     failed = 0; loaded = 0;
     const url = providers[i];
-    const needsInvert = dark && url !== cfg.tile_url_dark;
+    const needsInvert = dark && !url.includes(cfg.tile_url_dark);
     el.classList.toggle('tiles-invert', needsInvert);
     layer = L.tileLayer(url, { maxZoom: 19, subdomains: 'abcd', attribution: cfg.attribution, crossOrigin: false });
     layer.on('tileload', () => { loaded += 1; });
@@ -53,7 +64,8 @@ function addBasemap(L, map, el, cfg) {
   const onTheme = () => { if (!document.body.contains(el)) { document.removeEventListener('themechange', onTheme); return; } addBasemapSwap(); };
   const addBasemapSwap = () => {
     const nowDark = document.documentElement.dataset.theme === 'dark';
-    providers[0] = nowDark && cfg.tile_url_dark ? cfg.tile_url_dark : cfg.tile_url;
+    const updatedRaw = nowDark && cfg.tile_url_dark ? cfg.tile_url_dark : cfg.tile_url;
+    providers[0] = attachCartoKey(updatedRaw);
     idx = 0; use(0);
   };
   document.addEventListener('themechange', onTheme);
